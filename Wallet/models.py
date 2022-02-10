@@ -19,3 +19,11 @@ class Wallet(models.Model):
     disabled_at = models.DateTimeField(null=True)
     balance     = models.IntegerField(default=0, null=False, blank=False)
     
+    
+class WalletTransaction(models.Model):
+    id              = models.CharField(max_length=36, null=False, blank=False, primary_key=True, default=uuid4)
+    wallet          = models.ForeignKey(Wallet, related_name='transactions', on_delete=models.DO_NOTHING)
+    reference_id    = models.CharField(max_length=36, null=False, blank=False, unique=True)
+    deposited_at    = models.DateTimeField(null=True)
+    withdrawn_at    = models.DateTimeField(null=True)
+    amount          = models.IntegerField(null=False, blank=False)
